@@ -6,10 +6,16 @@
 <body>
         <h1>BUYSELL</h1>
         <h4>All prouducts</h4>
+        <form action="/" method="get">
+                Search by title: <input type="text" name="title"><br>
+                <input type="submit" value="Search">
+        </form>
         <#list products as product>
             <div>
                     <p><b>${product.title}</b> ${product.price} rub. | <a href="/product/${product.id}">More...</a>
             </div>
+                <#else>
+                <h3>product list empty</h3>
         </#list>
         <hr>
         <h3>Create new product</h3>

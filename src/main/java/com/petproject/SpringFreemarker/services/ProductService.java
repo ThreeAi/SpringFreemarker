@@ -1,38 +1,37 @@
 package com.petproject.SpringFreemarker.services;
 
 import com.petproject.SpringFreemarker.models.Product;
+import com.petproject.SpringFreemarker.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProductService {
 
-    private List<Product> products = new ArrayList<>();
-    private long id = 0;
+    private final ProductRepository productRepository;
 
-    {
-        products.add(new Product(++id,"PlayStation", "short description", 67000, "Mos", "Andrew"));
-        products.add(new Product(++id,"Iphone", "short description", 30000, "Mos", "Alex"));
+    public List<Product> listProducts(String title) {
+        if (title == null || title.isEmpty())
+            return productRepository.findAll();
+        return productRepository.findByTitle(title);
     }
 
-    public List<Product> listProducts() {return products;}
-
     public void saveProduct(Product product) {
-        product.setId(++id);
-        products.add(product);
+        log.info("Saving new {}", product);
+        productRepository.save(product);
     }
 
     public void deleteProduct(Long id) {
-        products.removeIf(product -> product.getId().equals(id));
+        productRepository.deleteById(id);
     }
 
     public Product getProductById(Long id) {
-        for (Product product : products) {
-            if (product.getId().equals(id))
-                return product;
-        }
-        return null;
+        return productRepository.findById(id).orElse(null);
     }
 }

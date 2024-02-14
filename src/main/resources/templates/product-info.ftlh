@@ -6,6 +6,9 @@
 <body>
 <h1>BUYSELL</h1>
 <h4>Information about product</h4>
+<#list images as img>
+    <img src="/images/${img.id}" height="60px"><br><br>
+</#list>
 <b>Name product: </b> ${product.title}<br>
 <b>Description product: </b> ${product.description}<br>
 <b>Price: </b> ${product.price}<br>
